@@ -11,25 +11,25 @@ import (
 type PaymentMethods []PaymentMethod
 
 type PaymentMethod struct {
-	ID                    string     `json:"id"`
-	Name                  string     `json:"name"`
-	PaymentTypeID         string     `json:"payment_type_id"`
-	Status                string     `json:"status"`
-	SecureThumbnail       string     `json:"secure_thumbnail"`
-	Thumbnail             string     `json:"thumbnail"`
-	DeferredCapture       string     `json:"deferred_capture"`
-	Settings              Settings   `json:"settings"`
-	AdditionalInfoNeeded  []struct{} `json:"additional_info_needed"`
-	MinAllowedAmount      float64    `json:"min_allowed_amount"`
-	MaxAllowedAmount      int        `json:"max_allowed_amount"`
-	AccreditationTime     int        `json:"accreditation_time"`
-	FinancialInstitutions struct{}   `json:"financial_institutions"`
-	ProcessingModes       string     `json:"processing_modes"`
+	ID                    string        `json:"id"`
+	Name                  string        `json:"name"`
+	PaymentTypeID         string        `json:"payment_type_id"`
+	Status                string        `json:"status"`
+	SecureThumbnail       string        `json:"secure_thumbnail"`
+	Thumbnail             string        `json:"thumbnail"`
+	DeferredCapture       string        `json:"deferred_capture"`
+	Settings              []Settings    `json:"settings"`
+	AdditionalInfoNeeded  []string      `json:"additional_info_needed"`
+	MinAllowedAmount      float64       `json:"min_allowed_amount"`
+	MaxAllowedAmount      int           `json:"max_allowed_amount"`
+	AccreditationTime     int           `json:"accreditation_time"`
+	FinancialInstitutions []interface{} `json:"financial_institutions"`
+	ProcessingModes       []string      `json:"processing_modes"`
 }
 
 type Settings struct {
-	Bin          Bin          `json:"bin"`
 	CardNumber   CardNumber   `json:"card_number"`
+	Bin          Bin          `json:"bin"`
 	SecurityCode SecurityCode `json:"security_code"`
 }
 
@@ -52,9 +52,13 @@ type SecurityCode struct {
 
 type ErrorResponse struct {
 	Message string        `json:"message"`
-	Error   string        `json:"error"`
+	Errors  string        `json:"error"`
 	Status  int           `json:"status"`
 	Cause   []interface{} `json:"cause"`
+}
+
+func (e *ErrorResponse) Error() string {
+	return fmt.Sprintf("Status code: %d - Error: %s - Message: %s", e.Status, e.Errors, e.Message)
 }
 
 // PaymentMethods Access to Payment Methods
@@ -81,16 +85,15 @@ func (c *Client) PaymentMethods(ctx context.Context) (PaymentMethods, error) {
 	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 		var errRes ErrorResponse
 		if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
-			return nil, fmt.Errorf("Status code: %d - Error: %s - Message: %s", errRes.Status, errRes.Error, errRes.Message)
+			return nil, &errRes
 		}
 
 		return nil, fmt.Errorf("unknown error, status code: %d", res.StatusCode)
 	}
 
 	var paymentMethods PaymentMethods
-	if err = json.NewDecoder(res.Body).Decode(&paymentMethods); err == nil {
+	if err := json.NewDecoder(res.Body).Decode(&paymentMethods); err != nil {
 		return nil, errors.New("Can't parse response")
-
 	}
 
 	return paymentMethods, nil

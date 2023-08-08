@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	baseURLV1 = "https://api.mercadopago.com/v1/"
+	BaseURLV1 = "https://api.mercadopago.com/v1/"
 )
 
 // Client is the API client
@@ -18,9 +18,9 @@ type Client struct {
 }
 
 // NewClient create a new Client for API interaction
-func NewClient(token string) *Client {
+func NewClient(baseURL, token string) *Client {
 	return &Client{
-		BaseURL: baseURLV1,
+		BaseURL: baseURL,
 		token:   token,
 		HTTPClient: &http.Client{
 			Timeout: time.Minute,
