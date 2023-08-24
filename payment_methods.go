@@ -50,17 +50,6 @@ type SecurityCode struct {
 	CardLocation string `json:"card_location"`
 }
 
-type ErrorResponse struct {
-	Message string        `json:"message"`
-	Errors  string        `json:"error"`
-	Status  int           `json:"status"`
-	Cause   []interface{} `json:"cause"`
-}
-
-func (e *ErrorResponse) Error() string {
-	return fmt.Sprintf("Status code: %d - Error: %s - Message: %s", e.Status, e.Errors, e.Message)
-}
-
 // PaymentMethods Access to Payment Methods
 func (c *Client) PaymentMethods(ctx context.Context) (PaymentMethods, error) {
 
