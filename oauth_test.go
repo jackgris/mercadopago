@@ -16,6 +16,15 @@ import (
 
 func TestGetAccessToken(t *testing.T) {
 
+	var rightResponse string = `
+        {
+         "access_token": "APP_USR-7237385876897478-882419-cf8589ace9fee57cb876a2dc72ed88a6-57883988",
+         "token_type": "Bearer",
+         "expires_in": 21600,
+         "scope": "offline_access payments read write",
+         "user_id": 87883988
+        }
+        `
 	var response mercadopago.AccessToken
 	if err := json.NewDecoder(strings.NewReader(rightResponse)).Decode(&response); err != nil {
 		t.Fatal(err)
@@ -160,13 +169,3 @@ func TestGetAccessToken(t *testing.T) {
 	}
 
 }
-
-var rightResponse string = `
-{
-    "access_token": "APP_USR-7237385876897478-882419-cf8589ace9fee57cb876a2dc72ed88a6-57883988",
-    "token_type": "Bearer",
-    "expires_in": 21600,
-    "scope": "offline_access payments read write",
-    "user_id": 87883988
-}
-`
