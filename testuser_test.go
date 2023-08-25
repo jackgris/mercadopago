@@ -155,7 +155,7 @@ func TestGetTestUser(t *testing.T) {
 				_, _ = w.Write(data)
 			}))
 
-			client := mercadopago.NewClient(server.URL+"/v1/", tt.accessToken)
+			client := mercadopago.NewClient(server.URL+"/", tt.accessToken)
 			got, err := client.GetTestUser(ctx, tt.accessToken, tt.siteID, tt.description)
 			if err != nil && errors.Is(err, tt.expectedErr) {
 				t.Fatalf("Receive error: %s | must be: %s", err, tt.expectedErr)

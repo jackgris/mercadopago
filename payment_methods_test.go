@@ -84,7 +84,7 @@ func TestGetPaymentMethods(t *testing.T) {
 				if http.MethodGet != r.Method {
 					t.Fatalf("HTTP Method expected is %s but receive %s", http.MethodGet, r.Method)
 				}
-				urlPAth := "/payment_methods"
+				urlPAth := "/v1/payment_methods"
 				if urlPAth != r.URL.Path {
 					t.Fatalf("Path URL expected is %s but receive %s", urlPAth, r.URL.Path)
 				}

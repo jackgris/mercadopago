@@ -53,7 +53,7 @@ type SecurityCode struct {
 // PaymentMethods Access to Payment Methods
 func (c *Client) PaymentMethods(ctx context.Context) (PaymentMethods, error) {
 
-	url := fmt.Sprintf("%spayment_methods", c.BaseURL)
+	url := fmt.Sprintf("%sv1/payment_methods", c.BaseURL)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err

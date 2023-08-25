@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	BaseURLV1 = "https://api.mercadopago.com/v1/"
+	BaseURLV1 = "https://api.mercadopago.com/"
 )
 
 // Client is the API client

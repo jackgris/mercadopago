@@ -37,7 +37,7 @@ func (c *Client) GetAccessToken(ctx context.Context, clientId, clientSecret stri
 	if err != nil {
 		return nil, err
 	}
-	url := fmt.Sprintf("%soauth/token", c.BaseURL[:len(c.BaseURL)-3])
+	url := fmt.Sprintf("%soauth/token", c.BaseURL)
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
 	if err != nil {

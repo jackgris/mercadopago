@@ -46,7 +46,7 @@ func (c *Client) GetTestUser(ctx context.Context, accessToken, siteId, descripti
 	if err != nil {
 		return nil, err
 	}
-	url := fmt.Sprintf("%susers/test_user", c.BaseURL[:len(c.BaseURL)-3])
+	url := fmt.Sprintf("%susers/test_user", c.BaseURL)
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
 	if err != nil {
