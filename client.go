@@ -3,6 +3,7 @@ package mercadopago
 import (
 	"encoding/json"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -18,9 +19,14 @@ type Client struct {
 }
 
 // NewClient create a new Client for API interaction
-func NewClient(baseURL, token string) *Client {
+func NewClient(rawURL, token string) *Client {
+	baseURL, err := url.ParseRequestURI(rawURL)
+	if err != nil {
+		return nil
+	}
+
 	return &Client{
-		BaseURL: baseURL,
+		BaseURL: baseURL.String(),
 		token:   token,
 		HTTPClient: &http.Client{
 			Timeout: time.Minute,
