@@ -42,6 +42,8 @@ func (c *Client) GetTestUser(ctx context.Context, accessToken, siteId, descripti
 		Description: description,
 	}
 
+	c.RefreshToken(accessToken)
+
 	body, err := json.Marshal(data)
 	if err != nil {
 		return nil, err
@@ -53,9 +55,6 @@ func (c *Client) GetTestUser(ctx context.Context, accessToken, siteId, descripti
 		return nil, err
 	}
 	req = req.WithContext(ctx)
-	req.Header.Set("Content-Type", "application/json; charset=utf-8")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
-
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err

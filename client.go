@@ -50,6 +50,11 @@ func NewClient(rawURL, token string) *Client {
 	return &c
 }
 
+func (c *Client) RefreshToken(token string) {
+	c.token = token
+	c.HTTPTransport.header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+}
+
 type transport struct {
 	header  http.Header
 	baseUrl url.URL
