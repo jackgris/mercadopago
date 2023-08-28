@@ -44,10 +44,6 @@ func (c *Client) GetAccessToken(ctx context.Context, clientId, clientSecret stri
 		return nil, err
 	}
 	req = req.WithContext(ctx)
-	req.Header.Set("Content-Type", "application/json; charset=utf-8")
-	req.Header.Set("Accept", "application/json; charset=utf-8")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.token))
-
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
