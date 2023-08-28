@@ -60,7 +60,7 @@ func TestIntegrationPaymentMethods(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 
-			client := mercadopago.NewClient(mercadopago.BaseURLV1, tt.accessToken)
+			client := mercadopago.NewClient(mercadopago.BaseURL, tt.accessToken)
 			got, err := client.PaymentMethods(context.Background())
 			if tt.respStatus == http.StatusOK {
 				if err != nil {
