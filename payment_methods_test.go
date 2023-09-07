@@ -18,7 +18,7 @@ import (
 func TestGetPaymentMethods(t *testing.T) {
 
 	// Get mocking data
-	jsonData, err := os.Open("payment_methods_data.json")
+	jsonData, err := os.Open("./testdata/payment_methods_data.json")
 	if err != nil {
 		t.Fatal(err)
 	}
